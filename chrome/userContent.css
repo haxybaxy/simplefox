@@ -1,0 +1,20 @@
+/* SPDX-License-Identifier: MPL-2.0 */
+/* SPDX-FileCopyrightText: 2024 awwpotato */
+
+@import url("vars.css");
+@import url("content/sidebery.css");
+@import url("content/about.css");
+
+/* pdf viewer */
+[mozdisallowselectionprint] > body {
+  & #mainContainer {
+    & .toolbar {
+      padding: 4px !important;
+      padding-bottom: none !important;
+      & #toolbarContainer {
+        border-radius: var(--uc-radius) !important;
+        box-shadow: none !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,197 @@
+/* SPDX-License-Identifier: MPL-2.0 */
+/* SPDX-FileCopyrightText: 2024 awwpotato */
+
+@-moz-document regexp("^moz-extension://.*?/sidebar/sidebar.html")
+{
+  :root,
+  .root,
+  #root {
+    --general-border-radius: var(--uc-button-radius) !important;
+    --tabs-margin: 1.5px !important;
+    --tabs-pinned-height: 30px !important;
+    --tabs-pinned-width: 30px !important;
+    --tabs-height: 30px !important;
+    --nav-btn-width: 30px !important;
+    --nav-btn-height: 28px !important;
+
+    @media (-moz-bool-pref: "browser.tabs.allow_transparent_browser") and (not (-moz-platform: windows)) {
+      background-color: transparent !important;
+      --frame-bg: transparent !important;
+    }
+  }
+
+  @media (max-width: 40px) {
+    .TabsPanel {
+      --tabs-indent: 0px !important;
+    }
+    .bookmarks-tree {
+      --bookmarks-indent: 0px !important;
+    }
+    .Tab:not([data-active="true"]) .close {
+      display: none !important;
+    }
+  }
+
+  .NavigationBar
+    .main-items
+    .nav-item[data-index="-1"]:not([data-active="true"]),
+  .NavigationBar:not(:has(.nav-item:not([data-index="-1"]))) .static-btns {
+    display: none !important;
+  }
+  @media (max-width: 66px) {
+    .NavigationBar .static-btns {
+      display: none !important;
+    }
+  }
+
+  .NavigationBar .main-items .nav-item[data-index="-1"] {
+    opacity: 1 !important;
+    z-index: 1 !important;
+    transform: scale(1, 1) !important;
+  }
+
+  .central-box {
+    margin-top: var(--tabs-margin) !important;
+  }
+
+  .TabsPanel .new-tab-btns {
+    padding: 0 var(--tabs-margin) !important;
+  }
+
+  #new-tab-btn {
+    width: 100% !important;
+  }
+
+  .NavigationBar {
+    border-radius: 6px !important;
+    margin: 0.3px !important;
+  }
+
+  #nav_bar {
+    background-color: transparent !important;
+    padding: var(--tabs-margin) !important;
+  }
+
+  @media not (-moz-bool-pref: "uc.tweak.sidebery.top-navbar") {
+    .top-horizontal-box {
+      order: 100 !important;
+      margin-bottom: var(--tabs-margin) !important;
+    }
+
+    .NavigationBar.-top .hidden-panels-popup {
+      position: absolute !important;
+      margin-top: -1000px !important;
+      top: auto !important;
+      bottom: 36px !important;
+    }
+    .NavigationBar.-top .hidden-panels-popup-layer::before {
+      display: none !important;
+      background-color: transparent !important;
+    }
+  } @media (-moz-bool-pref: "uc.tweak.sidebery.top-navbar") {
+    .top-horizontal-box {
+      margin-top: var(--tabs-margin) !important;
+    }
+  }
+
+  @media (-moz-bool-pref: "uc.tweak.sidebery.big-pinned") {
+    .PinnedTabsBar {
+      display: grid !important;
+      grid-gap: calc(3 * var(--tabs-margin)) !important;
+      grid-template-rows: 3rem;
+      grid-auto-rows: 3rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 3rem), 1fr));
+    }
+
+    .Tab[data-pin="true"] {
+      width: 100% !important;
+      height: 100% !important;
+      &:not([data-active="true"]) .body {
+        background-color: color-mix(
+          in oklab,
+          var(--tabs-activated-bg) 25%,
+          transparent
+        ) !important;
+      }
+    }
+  }
+
+  /* tab audio indicator */
+  .Tab .audio {
+    top: 2px !important;
+    left: 2px !important;
+    height: 12px !important;
+    width: 12px !important;
+  }
+  .Tab .child-count {
+    display: none !important;
+  }
+  .Tab[data-audible="true"] .t-box .title,
+  .Tab[data-muted="true"] .t-box .title,
+  .Tab[data-paused="true"] .t-box .title {
+    transform: translateX(0px) !important;
+  }
+
+  /* replace new tab panel and new tab button with plus */
+  .NavigationBar #add_tp.nav-item .icon,
+  .new-tab-btn > svg {
+    fill: transparent;
+    background-color: var(--nav-btn-fg);
+    mask: url("chrome://global/skin/icons/plus.svg") !important;
+  }
+
+  .nav-item .audio,
+  .nav-item .bookmarks-badge-icon {
+    background-color: var(--frame-bg) !important;
+  }
+
+  /* new tab button */
+  .TabsPanel .new-tab-btns {
+    height: calc(var(--tabs-height) + var(--tabs-margin)) !important;
+    width: calc(100% - var(--tabs-margin) * 2) !important;
+    padding: 0px !important;
+    padding-bottom: var(--tabs-margin) !important;
+    margin: 0 var(--tabs-margin);
+    border-radius: var(--tabs-border-radius);
+
+    position: relative !important;
+    overflow: clip !important;
+
+    & .new-tab-btn {
+      width: 100% !important;
+      height: 100% !important;
+
+      justify-content: flex-start !important;
+      flex-wrap: nowrap !important;
+      overflow: clip !important;
+      min-width: unset !important;
+      position: relative !important;
+
+      &::after {
+        content: "New Tab";
+        position: relative;
+        margin-left: calc(
+          var(--tabs-inner-gap) + var(--tabs-inner-gap) + 2px + 16px
+        ) !important;
+        width: calc(
+          100% - (var(--tabs-inner-gap) + var(--tabs-inner-gap) + 2px + 16px)
+        ) !important;
+
+        font: var(--tabs-font);
+        color: var(--tabs-normal-fg);
+        white-space: nowrap;
+        display: block !important;
+        box-sizing: border-box;
+        text-align: start;
+        overflow: hidden;
+        transition: transform var(--d-fast);
+        mask: linear-gradient(-90deg, transparent, #000 8px, #000);
+        margin-right: 2px !important;
+      }
+    }
+
+    & svg {
+      margin: 0 var(--tabs-inner-gap) 0 calc(var(--tabs-inner-gap) + 2px);
+    }
+  }
+}

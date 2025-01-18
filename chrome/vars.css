@@ -1,0 +1,67 @@
+/* SPDX-License-Identifier: MPL-2.0 */
+/* SPDX-FileCopyrightText: 2024 awwpotato */
+
+@import url("overrides.css");
+
+:root {
+  @media not (-moz-bool-pref: "uc.tweak.no-animations") {
+    --uc-transition: 200ms ease-in-out;
+    --uc-mouseout-delay: 250ms;
+  }
+
+  --uc-radius: 5px;
+  --uc-button-radius: 5px;
+  --uc-content-radius: 5px;
+
+  --uc-panel-hint-size: clamp(
+    min(4px, var(--uc-content-margin)),
+    calc(var(--uc-content-margin) * 0.5),
+    5px
+  );
+
+  --uc-blur-radius: 9px;
+
+  --uc-content-margin: 6px;
+  --uc-sidebar-margin: 3px;
+  --uc-hover-target-size: 8px;
+
+  --uc-small-floating-margin: 4px;
+  --uc-floating-margin: 8px;
+
+  @media (-moz-bool-pref: "browser.tabs.allow_transparent_browser") and (not (-moz-bool-pref: "uc.tweak.translucency")) {
+    --uc-content-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.2);
+  }
+
+  /* sidebar vars */
+  --uc-sidebar-hover-width: 170px;
+  @media (-moz-bool-pref: "uc.tweak.sidebar.short") {
+    --uc-sidebar-hover-width: 140px;
+  }
+  @media (-moz-bool-pref: "uc.tweak.sidebar.wide") {
+    --uc-sidebar-hover-width: 200px;
+  }
+
+  --uc-sidebar-width: 34px;
+
+  /* linux window controls width */
+  --gtk-window-control-single: 38px;
+  --gtk-window-control-dual: 76px;
+  --gtk-window-control-tri: 114px;
+  /* linux window controls width w/ firefox color extension enabled*/
+  &[lwtheme="true"] {
+    --gtk-window-control-single: 35px;
+    --gtk-window-control-dual: 73px;
+    --gtk-window-control-tri: 114px;
+    &[uidensity="compact"] {
+      --gtk-window-control-single: 31px;
+      --gtk-window-control-dual: 65px;
+      --gtk-window-control-tri: 99px;
+    }
+  }
+
+  /* don't touch this */
+  --uc-content-margin-inline: calc(var(--uc-content-margin) * 2);
+  @media (-moz-bool-pref: "uc.tweak.borderless") {
+    --uc-content-margin-inline: 0px;
+  }
+}
